@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      args:
+        user: www
+        uid: 1000
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: app
+    volumes:
+      - ./:/var/www
+    tty: true
+    restart: unless-stopped
+    depends_on:
+      - database
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d
+      - ./:/var/www
+    restart: unless-stopped
+    depends_on:
+      - app
+
+  database:
+    image: mysql:5.7
+    container_name: database
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    volumes:
+      - ./docker/sql:/docker-entrypoint-initdb.d
