@@ -19,6 +19,7 @@ class CreateBooksTable extends Migration
             $table->string('description');
             $table->date('release_date');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreignId('author_id')->constrained('authors');
         });
