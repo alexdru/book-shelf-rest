@@ -20,7 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResources([
-    'authors' => AuthorController::class,
-    'books' => BookController::class
-]);
+Route::middleware('token.check')->group(function() {
+    Route::apiResources([
+        'authors' => AuthorController::class,
+        'books' => BookController::class
+    ]);
+});
