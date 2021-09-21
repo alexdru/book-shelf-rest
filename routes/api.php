@@ -21,6 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('token.check')->group(function() {
+    Route::get('/books/search', [BookController::class, 'search']);
+
     Route::apiResources([
         'authors' => AuthorController::class,
         'books' => BookController::class

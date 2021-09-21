@@ -65,4 +65,23 @@ class BookController extends Controller
     {
         return $book->delete();
     }
+
+    /**
+     * Search the specified resource with request params
+     *
+     * @param Request $request
+     * @return Builder[]|Collection
+     */
+    public function search(Request $request): Collection|array
+    {
+        $title = $request->input('title');
+        $description = $request->input('description');
+        $releaseDate = $request->input('release_date');
+
+        return Book::query()
+            ->when($title, fn($q) => $q->orWhere('title', 'like', "%{$title}%"))
+            ->when($description, fn($q) => $q->orWhere('description', 'like', "%{$description}%"))
+            ->when($releaseDate, fn($q) => $q->orWhere('release_date', 'like', "%{$releaseDate}%"))
+            ->get();
+    }
 }
