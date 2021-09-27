@@ -16,10 +16,12 @@ class CheckApiToken
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!$request->token) {
-            return response()->json('Unauthorized', 401);
+        $token = $request->input('token');
+
+        if ($token && $token === env('API_TOKEN')) {
+            return $next($request);
         }
 
-        return $next($request);
+        return response()->json('Unauthorized', 401);
     }
 }
