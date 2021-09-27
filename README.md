@@ -10,6 +10,11 @@ Step-by-step instructions for starting a project:
 docker-compose up
 ```
 
+**Install composer dependencies:**
+```bash
+docker exec -it app composer install
+```
+
 **Create `.env` and generate app key:**
 ```bash
 docker exec -it app cp .env.example .env
