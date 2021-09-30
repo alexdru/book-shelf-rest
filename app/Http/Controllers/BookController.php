@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
@@ -48,9 +47,9 @@ class BookController extends Controller
      *
      * @param Request $request
      * @param Book $book
-     * @return Response
+     * @return Book
      */
-    public function update(Request $request, Book $book): Response
+    public function update(Request $request, Book $book): Book
     {
         return tap($book)->update($request->all());
     }
